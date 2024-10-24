@@ -56,6 +56,9 @@
         <span class="name">{{ $t('contextmenu.moveDownNode') }}</span>
         <span class="desc">Ctrl + ↓</span>
       </div>
+      <div class="item" @click="exec('EXPAND_ALL')">
+        <span class="name">{{ $t('contextmenu.expandNodeChild') }}</span>
+      </div>
       <div class="item" v-if="supportNumbers">
         <span class="name">{{ $t('contextmenu.number') }}</span>
         <span class="el-icon-arrow-right"></span>
@@ -85,6 +88,11 @@
             {{ numberLevel === item.value ? '√' : '' }}
           </div>
         </div>
+      </div>
+      <div class="item" @click="setCheckbox" v-if="supportCheckbox">
+        <span class="name">{{
+          hasCheckbox ? $t('contextmenu.removeToDo') : $t('contextmenu.addToDo')
+        }}</span>
       </div>
       <div class="splitLine"></div>
       <div class="item danger" @click="exec('REMOVE_NODE')">
@@ -241,7 +249,8 @@ export default {
     ...mapState({
       isZenMode: state => state.localConfig.isZenMode,
       isDark: state => state.localConfig.isDark,
-      supportNumbers: state => state.supportNumbers
+      supportNumbers: state => state.supportNumbers,
+      supportCheckbox: state => state.supportCheckbox
     }),
     expandList() {
       return [
@@ -319,6 +328,9 @@ export default {
     },
     numberLevelList() {
       return numberLevelList[this.$i18n.locale] || numberLevelList.zh
+    },
+    hasCheckbox() {
+      return !!this.node.getData('checkbox')
     }
   },
   created() {
@@ -344,12 +356,11 @@ export default {
 
     // 计算右键菜单元素的显示位置
     getShowPosition(x, y) {
-      this.subItemsShowLeft = false
       const rect = this.$refs.contextmenuRef.getBoundingClientRect()
       if (x + rect.width > window.innerWidth) {
         x = x - rect.width - 20
-        this.subItemsShowLeft = true
       }
+      this.subItemsShowLeft = x + rect.width + 150 > window.innerWidth
       if (y + rect.height > window.innerHeight) {
         y = window.innerHeight - rect.height - 10
       }
@@ -462,6 +473,9 @@ export default {
             this.node
           )
           break
+        case 'EXPAND_ALL':
+          this.$bus.$emit('execCommand', key, this.node.uid)
+          break
         default:
           this.$bus.$emit('execCommand', key, ...args)
           break
@@ -491,6 +505,21 @@ export default {
       this.mindMap.execCommand('SET_NUMBER', [], {
         [prop]: value
       })
+      this.hide()
+    },
+
+    // 设置待办
+    setCheckbox() {
+      this.mindMap.execCommand(
+        'SET_CHECKBOX',
+        [],
+        this.hasCheckbox
+          ? null
+          : {
+              done: false
+            }
+      )
+      this.hide()
     },
 
     // 复制到剪贴板

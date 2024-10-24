@@ -5,6 +5,7 @@ import {
 } from '../constants/constant'
 import MersenneTwister from './mersenneTwister'
 import { ForeignObject } from '@svgdotjs/svg.js'
+import merge from 'deepmerge'
 
 //  深度优先遍历树
 export const walk = (
@@ -75,11 +76,11 @@ export const resizeImgSizeByOriginRatio = (
   let nRatio = width / height
   let mRatio = newWidth / newHeight
   if (nRatio > mRatio) {
-    // 固定高度
-    arr = [nRatio * newHeight, newHeight]
-  } else {
     // 固定宽度
     arr = [newWidth, newWidth / nRatio]
+  } else {
+    // 固定高度
+    arr = [nRatio * newHeight, newHeight]
   }
   return arr
 }
@@ -94,11 +95,11 @@ export const resizeImgSize = (width, height, maxWidth, maxHeight) => {
     } else {
       let mRatio = maxWidth / maxHeight
       if (nRatio > mRatio) {
-        // 固定高度
-        arr = [nRatio * maxHeight, maxHeight]
-      } else {
         // 固定宽度
         arr = [maxWidth, maxWidth / nRatio]
+      } else {
+        // 固定高度
+        arr = [nRatio * maxHeight, maxHeight]
       }
     }
   } else if (maxWidth) {
@@ -1609,4 +1610,13 @@ export const sortNodeList = nodeList => {
     return a.sortIndex - b.sortIndex
   })
   return nodeList
+}
+
+// 合并主题配置
+export const mergeTheme = (dest, source) => {
+  return merge(dest, source, {
+    arrayMerge: (destinationArray, sourceArray) => {
+      return sourceArray
+    }
+  })
 }
