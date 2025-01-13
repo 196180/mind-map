@@ -40,7 +40,12 @@ export default {
     edge: '邊緣',
     rainbowLines: '彩虹線條',
     notUseRainbowLines: '不使用彩虹線條',
-    outerFramePadding: '外框內距'
+    outerFramePadding: '外框內距',
+    tagPosition: '節點標簽顯示的位置',
+    tagPositionRight: '文本右側',
+    tagPositionBottom: '文本下面',
+    alwaysShowExpandBtn: '是否壹直顯示展開收起按鈕',
+    enableAutoEnterTextEditWhenKeydown: '鍵盤輸入時自動進入文本編輯'
   },
   setting: {
     title: '設置',
@@ -71,7 +76,12 @@ export default {
     watermarkAngle: '旋轉角度',
     watermarkTextOpacity: '文字透明度',
     watermarkTextFontSize: '字型大小',
-    belowNode: '顯示在節點下方'
+    belowNode: '顯示在節點下方',
+    confirm: '確定',
+    cancel: '取消',
+    changeRichTextTip: '該操作會清空所有曆史修改記錄，並且修改思維導圖數據，是否繼續？',
+    changeRichTextTip2: '是否切換爲富文本模式？',
+    changeRichTextTip3: '是否切換爲非富文本模式？'
   },
   color: {
     moreColor: '更多顏色'
@@ -117,6 +127,7 @@ export default {
     copyFail: '複製失敗',
     number: '將其子節點編號',
     expandNodeChild: '展開所有下級節點',
+    unExpandNodeChild: '收起所有下級節點',
     addToDo: '添加待辦',
     removeToDo: '刪除待辦'
   },
@@ -243,7 +254,12 @@ export default {
     endColor: '結束',
     arrowDir: '箭頭位置',
     arrowDirStart: '頭部',
-    arrowDirEnd: '尾部'
+    arrowDirEnd: '尾部',
+    selectNodeTip: '請選擇壹個節點',
+    openLineFlow: '開啓流動效果',
+    lineFlowDuration: '一個流動周期的時間',
+    forward: '正向',
+    reverse: '反向'
   },
   theme: {
     title: '主題',
